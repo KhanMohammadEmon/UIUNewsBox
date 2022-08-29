@@ -1,0 +1,1 @@
+INSERT INTO `admin` (`first_name`, `last_name`, `email`, `phone_number`, `passwords`) VALUES ('MDS', 'Deepu', 'dshahadat3@gmail.com', '01978944819','12345678');
