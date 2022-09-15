@@ -13,14 +13,55 @@ if (isset($_POST['submit1'])) {
     $date = date("Y/m/d");
     $time = date("h:i:sa");
 
-
-        $comment_query= "INSERT INTO post_comment (id,cDates, cTime, content, cLike, post_id) VALUES ('','$date' , '$time' , '$content', 0, '$post_id')";
-       $new_result =  mysqli_query($sql, $comment_query);
-      
+    $email = $_SESSION["email"];
      
+    $fullName = "";
+    
+        if($_SESSION['type'] == "admin")
+        {
+            $q14 =  "SELECT * FROM `admin` where email = '$email';";
+            $run14 = mysqli_query($sql, $q14);
+            if (mysqli_num_rows($run14) > 0) {
+                while ($row14 = $run14->fetch_assoc()) {
+                    $fullName = $fullName .
+                        $row14["first_name"] . " " .
+                        $row14["last_name"];
+                }
+            }
+        }
+           
+        else if($_SESSION['type'] == "forumRep")
+        {
+            $q14 =  "SELECT * FROM `forumrep` where email = '$email';";
+            $run14 = mysqli_query($sql, $q14);
+            if (mysqli_num_rows($run14) > 0) {
+                while ($row14 = $run14->fetch_assoc()) {
+                    $fullName = $fullName .
+                        $row14["first_name"] . " " .
+                        $row14["last_name"];
+                }
+            }
+        }
+               
+        else if($_SESSION['type'] == "general_user")
+        {
+            $q14 =  "SELECT * FROM `general_user` where email = '$email';";
+            $run14 = mysqli_query($sql, $q14);
+            if (mysqli_num_rows($run14) > 0) {
+                while ($row14 = $run14->fetch_assoc()) {
+                    $fullName = $fullName .
+                        $row14["first_name"] . " " .
+                        $row14["last_name"];
+                }
+            }
+        }
+        
+       
 
-
-        //header("location: index.php");
+    $comment_query= "INSERT INTO post_comment (id,cDates, cTime, content, cLike, post_id,name) VALUES ('','$date' , '$time' , '$content', 0, '$post_id','$fullName')";
+       
+    $new_result =  mysqli_query($sql, $comment_query);
+      //header("location: single.php");
 
 }
 
@@ -57,7 +98,6 @@ if (isset($_GET["id"])) {
 </head>
 
 <body>
-
 
     <div class="page-title wb">
         <div class="container">
@@ -109,17 +149,25 @@ if (isset($_GET["id"])) {
                             </div><!-- end pp -->
                         </div><!-- end content -->
 
+
+                        <!-- comments show  -->
+
+                        <div>
+                            <h2>
+                                Show Comments:
+                            </h2>
+                        </div>
                         <div>
                            
                             <?php
-                              $count = 1;
+                              //$count = 1;
                               $q13=  "SELECT * FROM `post_comment` where post_id = '{$row["id"]}';";
                               $run13 = mysqli_query($sql, $q13); 
 
                                while($row13 = mysqli_fetch_array($run13)) {
                                
-                                 echo "Comment $count : ".$row13['content'] . "<br />";
-                                 $count++;
+                                 echo $row13['name']." : ".$row13['content'] . "<br />";
+                                 //$count++;
                                 
                                
                                }
@@ -131,7 +179,7 @@ if (isset($_GET["id"])) {
                         <!-- comment part Start -->
 
 
-                        <form action="single.php" method="POST">
+                        <form action="" method="POST">
                             <input type="hidden" name="post_id" <?php echo "value='{$row["id"]}'"; ?>>
                             <textarea name="comments" id="comments"
                                 style="width:96%;height:90px;padding:2%;font:1.4em/1.6em cursive;background-color:gold;color:hotpink;">
