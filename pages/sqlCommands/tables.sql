@@ -173,3 +173,32 @@ create table post_comment(
 );
 
 ALTER TABLE post_comment ADD COLUMN name VARCHAR(250) After post_id;
+
+CREATE TABLE IF NOT EXISTS pdf_file (
+
+    id int (5) AUTO_INCREMENT ,
+    pdf varchar (50),
+    primary key (id)
+ 
+
+);
+CREATE TABLE course_categories (
+  id int(11) AUTO_INCREMENT,
+  cat_name varchar(255) NOT NULL,
+  course_code varchar(255) NOT NULL,
+  primary key(id)
+);
+
+
+CREATE TABLE qus_posts (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  title varchar(255) NOT NULL,
+  description longtext NOT NULL,
+  img varchar(255) NOT NULL,
+  old_img varchar(255) NOT NULL,
+  cat_id varchar(255) NOT NULL,
+  date varchar(255) NOT NULL,
+  f_email varchar(50) not null
+);
+
+

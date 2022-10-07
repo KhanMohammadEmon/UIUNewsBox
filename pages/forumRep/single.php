@@ -94,6 +94,7 @@ if (isset($_GET["id"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" href="assets/css/favicon.png">
     <title>Single Post</title>
 </head>
 
@@ -103,7 +104,24 @@ if (isset($_GET["id"])) {
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <a href="mainPage.php"><img src="../../assets/img/ForWhiteBg.png" class="rounded float-start"></a>
+
+                    <?php
+                       $page = "";
+
+                      if($_SESSION['type'] == "admin")
+                      {
+                        $page = "../admin/mainPage.php";
+                      }
+                      else if($_SESSION['type'] == "forumRep")
+                      {
+                        $page = "mainPage.php";
+                      }
+                      else if($_SESSION['type'] == "general_user")
+                      {
+                         $page = "../general_user/mainPage.php";
+                      }
+                    ?>
+                     <a href="<?php echo $page; ?>"><img src="../../assets/img/ForWhiteBg.png" class="rounded float-start"></a>
                 </div><!-- end col -->
             </div><!-- end row -->
         </div><!-- end container -->
@@ -158,7 +176,7 @@ if (isset($_GET["id"])) {
                             </h2>
                         </div>
                         <div>
-                           
+
                             <?php
                               //$count = 1;
                               $q13=  "SELECT * FROM `post_comment` where post_id = '{$row["id"]}';";
@@ -173,7 +191,7 @@ if (isset($_GET["id"])) {
                                }
                                
                         ?>
-                    </div>
+                        </div>
 
 
                         <!-- comment part Start -->

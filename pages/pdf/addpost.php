@@ -12,9 +12,9 @@ if (isset($_POST['submit'])) {
     $description = $_POST['description'];
     $cat_id = $_POST['category'];
 
-    $img_name = rand() . $_FILES['img']['name'];
-    $img_tmp_name = $_FILES['img']['tmp_name'];
-    $img_size = $_FILES['img']['size'];
+    $img_name = rand() . $_FILES['pdf']['name'];
+    $img_tmp_name = $_FILES['pdf']['tmp_name'];
+    $img_size = $_FILES['pdf']['size'];
 
     $email = $_SESSION['email'];
     
@@ -23,10 +23,10 @@ if (isset($_POST['submit'])) {
     if ($img_size > 5242880) {
         $msg = "<div class='alert alert-danger'>Image is too big. Maximum image uploading size is 5 MB.</div>";
     } else {
-        $r = "INSERT INTO posts (title, description, img, cat_id, date,f_email) VALUES ('$title', '$description', '$img_name', '$cat_id', '$date','$email')";
+        $r = "INSERT INTO qus_posts (title, description, img, cat_id, date,f_email) VALUES ('$title', '$description', '$img_name', '$cat_id', '$date','$email')";
         $result = mysqli_query($sql, $r);
         if ($result) {
-            move_uploaded_file($img_tmp_name, "uploads/" . $img_name);
+            move_uploaded_file($img_tmp_name, "pdfup/" . $img_name);
             $msg = "<div class='alert alert-success'>Post added successful.</div>";
             $_POST['title'] = "";
             $_POST['description'] = "";
@@ -91,9 +91,9 @@ if (isset($_POST['submit'])) {
                             <option value="" selected hidden disabled>Select Category</option>
                             <?php
 
-                            if($_SESSION['type'] == "forumRep" || $_SESSION['type'] == "admin" )
-                            {
-                                $r = "SELECT * FROM categories";
+                           
+                        
+                                $r = "SELECT * FROM course_categories";
                                 $result = mysqli_query($sql, $r);
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
@@ -102,27 +102,16 @@ if (isset($_POST['submit'])) {
                             <option <?php if ($_POST['category'] == $row['id']) { echo "selected"; } ?>
                                 value="<?php echo $row['id']; ?>"><?php echo $row['cat_name']; ?></option>
                             <?php } } 
-                            }
+                            
 
-                            else 
-                            {
-                                $r = "SELECT * FROM categories where id = 2 ";
-                                $result = mysqli_query($sql, $r);
-                                if (mysqli_num_rows($result) > 0) {
-                                    while ($row = mysqli_fetch_assoc($result)) {
-                                
-                                ?>
-                            <option <?php if ($_POST['category'] == $row['id']) { echo "selected"; } ?>
-                                value="<?php echo $row['id']; ?>"><?php echo $row['cat_name']; ?></option>
-                            <?php } } 
-                            }
+                           
 
                            ?>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="img">Image</label>
-                        <input type="file" accept="image/*" class="form-control" name="img" id="img" required>
+                        <label for="img">PDF</label>
+                        <input type="file" accept="pdf/*" class="form-control" name="img" id="img" required>
                     </div>
                     <button type="submit" name="submit" class="btn btn-primary">Add Post</button>
                 </form>

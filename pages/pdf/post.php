@@ -61,7 +61,7 @@ include '../sqlCommands/connectDb.php';
 
                     $email=$_SESSION['email'];
 
-                    $r = "SELECT * FROM posts where f_email = '$email' ";
+                    $r = "SELECT * FROM qus_posts where f_email = '$email' ";
                     $result = mysqli_query($sql, $r);
                     if (mysqli_num_rows($result) > 0) {
                         $id = 1;
@@ -73,7 +73,7 @@ include '../sqlCommands/connectDb.php';
                                 <td><?php echo $row['title']; ?></td>
                                 <td><?php
                         
-                        $show_category = mysqli_query($sql, "SELECT * FROM categories WHERE id='{$row["cat_id"]}'");
+                        $show_category = mysqli_query($sql, "SELECT * FROM course_categories WHERE id='{$row["cat_id"]}'");
                         if (mysqli_num_rows($show_category) > 0) {
                             $category_data = mysqli_fetch_assoc($show_category);
                             echo $category_data['cat_name'];
